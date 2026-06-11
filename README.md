@@ -98,11 +98,11 @@ El proyecto sigue un flujo de **co-diseño hardware/software** estructurado en c
 │  │  │                     H2F AXI Bridge                               │  │  │
 │  │  └──────────────────────────────────────────────────────────────────┘  │  │
 │  └────────────────────────────────────────────────────────────────────────┘  │
-│                   │  64 KB  (0xC0000000)                                     │
+│                   │  58 KB  (0xC0000000)                                     │
 │  ┌────────────────────────────▼───────────────────────────────────────────┐  │
 │  │                       HPS (ARM Cortex-A9)                              │  │
 │  │  Linux · wav_player_arm · SCHED_FIFO prio 80 · mlockall                │  │
-│  │  /dev/mem  mmap  0xC0000000  (64 KB)                                   │  │
+│  │  /dev/mem  mmap  0xC0000000  (58 KB)                                   │  │
 │  └──────────────────────┬────────────────────────┬────────────────────────┘  │
 │                         │                        │                           │
 │                    SD Card (WAV files)      Ethernet / UART                  │
@@ -569,11 +569,11 @@ Las direcciones base exactas se definen en `system.h`, generado automáticamente
 
 ### Espacio de direcciones HPS — Puente H2F AXI
 
-El HPS accede a los periféricos FPGA mediante el puente H2F AXI mapeado en `/dev/mem`. La ventana cubre 64 KB desde `0xC0000000`:
+El HPS accede a los periféricos FPGA mediante el puente H2F AXI mapeado en `/dev/mem`. La ventana total es 58 KB desde `0xC0000000`; los primeros 48 KB corresponden a la RAM del NIOS II:
 
 ```c
 #define H2F_BRIDGE_BASE    0xC0000000
-#define H2F_MAP_SIZE       0x10000      /* 64 KB */
+#define H2F_MAP_SIZE       0xE800       /* 58 KB total; RAM NIOS II = 48 KB (0xC000) */
 ```
 
 | Periférico | Offset | Dirección ARM | Descripción |
